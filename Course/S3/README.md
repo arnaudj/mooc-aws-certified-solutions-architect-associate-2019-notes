@@ -96,14 +96,13 @@ S3 is charged for:
 
 ### [S3 Cross region replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/crr.html)
 
-* Regions must be unique
-* Cross region replication doesn't replicate existing object by default, only new ones (after the replicate is set) will be replicated automatically.
-* In order to replicate the existing objects, you need to do a `cp` using the aws cli:
+* 1->1 replication from one primary bucket to one replica bucket
+* Source/destination regions must be different
+* Requires versioning to be enabled
+* Cross region replication replicates only files created/modified after CRR is enabled. Existing files can be `cp`-ed using the aws cli:
 
     `aws s3 cp --recursive s3://alessio-casco-versioning s3://alessio-casco-versioning-replica-sydney`
-* If you delete an object in the primary bucket, the delete action and markers won't be done or replicated in your remote bucket, this is a security function.
-Only creations and modifications are replicated to the bucket in the other regions NOT the delete
-* You can't replicate over multiple buckets, the maps are always 1-to-1
+* Deletes (delete markers) are not replicated, for security.
 
 ## [CloudFront](https://aws.amazon.com/cloudfront/)
 
