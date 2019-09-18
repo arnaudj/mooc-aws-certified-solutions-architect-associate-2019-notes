@@ -44,8 +44,9 @@
 ### [S3 Storage Tiers](https://aws.amazon.com/s3/storage-classes/)
 
 * S3 standard: 99.99% availability 11x9s durability (it sustains the loss of 2 facilities concurrently)
-* S3 IA: (Infrequently Accessed): For data that is accessed less frequently, but needs rapid access. You are charged a retrieval fee per GB retrieved
+* S3 IA: (Infrequently Accessed): For data that is accessed less frequently, but needs rapid access. You are charged an extra retrieval fee per GB retrieved
 * S3 One Zone IA: Like S3 IA but data is stored only in one AZ
+* S3 Intelligent-Tiering: switches between frequent/infrequent access tiers based on usage
 * Glacier: Most cheap, used for archival only.
   * Expedited: few minutes for retrieval
   * Standard: 3-5 hours for retrieval
@@ -62,7 +63,7 @@ S3 is charged for:
 * Requests
 * Storage management pricing
 * Data Transfer Pricing
-* Transfer acceleration (it's using CloudFront the AWS CDN) using edge locations
+* Transfer acceleration, if used: with CloudFront, the AWS CDN, via edge locations
 
 ### [Server side Encryption and ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html)
 
