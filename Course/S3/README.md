@@ -1,6 +1,32 @@
-# CHAPTER 3 | S3 Object Storage and CDN
+# CHAPTER 3 S3 Object Storage and CDN
+
+<!-- TOC -->
+
+- CHAPTER 3 S3 Object Storage and CDN
+  - S3
+    - [What's S3](https://aws.amazon.com/s3/)
+    - Data Consistency for S3
+    - Components
+    - Basics
+    - [S3 Storage Tiers](https://aws.amazon.com/s3/storage-classes/)
+    - [Charges](https://aws.amazon.com/s3/pricing/)
+    - [Server side Encryption and ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html)
+    - [S3 Version Control](https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html)
+    - [S3 Cross region replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/crr.html)
+  - [CloudFront](https://aws.amazon.com/cloudfront/)
+    - [What's a CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/)
+    - [S3 Security & Encryption](https://aws.amazon.com/blogs/aws/new-amazon-s3-encryption-security-features/)
+  - [Amazon Storage](https://aws.amazon.com/products/storage/)
+    - [Amazon Storage Gateway](https://aws.amazon.com/storagegateway/)
+    - [Snowball](https://aws.amazon.com/snowball/)
+  - [S3 Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html)
+  - [Static Website Using S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html)
+
+<!-- /TOC -->
+
 
 ## S3
+Simple storage service
 
 ### [What's S3](https://aws.amazon.com/s3/)
 
