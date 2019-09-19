@@ -24,6 +24,16 @@ Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure,
 
 * [Dedicated Hosts](https://aws.amazon.com/ec2/dedicated-hosts/): dedicated hosts (single tenant), e.g for regulatory/licensing needs. Available as on demand and reservation.
 
+### Launch an EC2 Instance - Lab
+Steps:
+* Launch t2.micro, with AMI `Amazon Linux 2 AMI (HVM), SSD Volume Type`
+
+Exam notes
+* Termination protection is turned off by default.
+* The EBS root volume by default is deleted at termination.
+* EBS root volume of default Amazon's AMI cannot be encrypted 
+* Additional volumes can be encrypted.
+
 ### [What's EBS](https://aws.amazon.com/ebs/)
 
 Provides persistent block storage volumes for use with Amazon EC2 instances in the AWS Cloud. EBS is automatically replicated in a specific AZ
@@ -58,13 +68,6 @@ As you would do in a bare-metal server, you can also create [RAID](https://en.wi
 
 Remember also that you can create [snapshots of your RAID arrays](https://aws.amazon.com/premiumsupport/knowledge-center/snapshot-ebs-raid-array/)
 
-### Launch an EC2 Instance - Lab
-
-* Termination protection is turned off by default.
-* The EBS root volume by default is deleted at termination.
-* Default AMI's (provided by Amazon) cannot be encrypted.
-* Additional volumes can be encrypted.
-
 ## Security groups - Lab
 
 ### [What's a security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)
@@ -76,6 +79,7 @@ A security group acts as a virtual firewall for your instance to control inbound
 * All security groups changes are applied immediately.
 * Security groups are stateful. For example, if you allow the request to come in, automatically responses can go out even if you don't have anything on the outbound section of your security group.
 * You can specify only allow rules, not deny rules.
+* An EC2 instance can be assigned multiple security groups
 
 ## EBS Volumes & Encrypt Root Device Volume - Lab
 
