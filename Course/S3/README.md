@@ -63,7 +63,7 @@ S3 is charged for:
 * Requests
 * Storage management pricing
 * Data Transfer Pricing
-* Transfer acceleration, if used: with CloudFront, the AWS CDN, via edge locations
+* Transfer acceleration when uploading: if used, via CloudFront CDN
 
 ### [Server side Encryption and ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html)
 
@@ -112,12 +112,18 @@ S3 is charged for:
 
 * Key terminology about CloudFront:
   * Edge Location: Is the location where the content is cached (separate from AWS AZ's or regions)
-    Be aware that you can also write on edge locations, is not ready only.
+    You can also write on edge locations, is not read only (ex: S3 Transfer Acceleration)
   * Invalidating (erasing) the cache costs money.
-  * Origin: Is the source of the files the CDN will distribute. An origin can be an EC2 instance, an S3 bucket, an Elastic Load Balancer or Route53, you can also have your own origin, it not mandatory that is within AWS.
-  * Distribution: Is the name AWS calls CDN's.
-    * You can Have two types: Web that is for generic web contents and RTMP that is for video streaming
+  * Origin: Is the source of the files the CDN will distribute. An origin can be an EC2 instance, an S3 bucket, an Elastic Load Balancer or Route53, or a 3rd party origin.
+  * Distribution: content and geographic availability sites to serve from (edge locations)
+    * Types: web content, or RTMP for video streaming
     * TTL: time to live of the cached object.
+
+* Content update from origin to edges is lazy: not until requested by a client
+* Default cache TTL is 24h, and can be adjusted
+* How to [update content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/UpdatingExistingObjects.html#ReplacingObjects):
+  * using a version identifier in the file name
+  * using same name (not recommended) and Invalidations in console (paid)
 
 ### [S3 Security & Encryption](https://aws.amazon.com/blogs/aws/new-amazon-s3-encryption-security-features/)
 
