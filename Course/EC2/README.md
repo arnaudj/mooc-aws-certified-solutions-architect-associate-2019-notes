@@ -10,7 +10,10 @@ Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure,
 
 * [On demand](https://aws.amazon.com/ec2/pricing/on-demand/): You pay for computing capacity by per hour or per second depending on which instances you run.
 * [Reserved Instance (RI)](https://aws.amazon.com/ec2/pricing/reserved-instances/): Provide a significant discount (up to 75%) compared to On-Demand pricing and provide a capacity reservation when used in a specific Availability Zone. You have to enter a contract.
-* [Spot](https://aws.amazon.com/ec2/spot/): Amazon EC2 Spot instances allow you to request spare Amazon EC2 computing capacity for up to 90% off the On-Demand price.
+  * Standard reserved instances: up to -75% vs on demand
+  * Convertible reserved instances: up to -54% vs on demand. Can be exchanged for another R.I of equal/higher value
+  * Scheduled reserved instances: pay capacity on a daily/weekly/monthly basis, with a specified start time and duration, even if not used
+* [Spot](https://aws.amazon.com/ec2/spot/): up to -90% vs on demand. Useful for fault-tolerant, time flexible workloads requiring low price at possibly large capacity.
 
   * If you terminate an instance, you will pay for the complete hour.
   * If Amazon terminates the instance, you won't pay for the complete hour.
@@ -19,9 +22,7 @@ Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure,
     * Capacity – If there are not enough unused EC2 instances to meet the demand for Spot Instances, Amazon EC2 interrupts Spot Instances. The order in which the instances are interrupted is determined by Amazon EC2.
     * Constraints – If your request includes a constraint such as a launch group or an Availability Zone group, these Spot Instances are terminated as a group when the constraint can no longer be met.
 
-
-
-* [Dedicated Hosts](https://aws.amazon.com/ec2/dedicated-hosts/): Is a physical server with EC2 instance capacity fully dedicated to your use.
+* [Dedicated Hosts](https://aws.amazon.com/ec2/dedicated-hosts/): dedicated hosts (single tenant), e.g for regulatory/licensing needs. Available as on demand and reservation.
 
 ### [What's EBS](https://aws.amazon.com/ebs/)
 
