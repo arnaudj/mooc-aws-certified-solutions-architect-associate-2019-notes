@@ -249,7 +249,7 @@ Amazon EFS provides scalable file storage for use with Amazon EC2. You can creat
 * Can support thousands of concurrent connections.
 * Data is stored across multiple AZ.
 * Read after write consistency.
-
+* Can be mounted on more than 1 instance concurrently
 * You need to make sure that the EC2 instance that needs to connect with the EFS volume, is associated with the same security group you have on the EFS volume.
 * You can assign permissions at the file level and at the folder level.
 
