@@ -31,7 +31,8 @@ Steps:
 Exam notes
 * Termination protection is turned off by default.
 * The EBS root volume by default is deleted at termination.
-* EBS root volume of default Amazon's AMI cannot be encrypted 
+* EBS root volume of default Amazon's AMI can now be encrypted at creation
+  * If created unencrypted, it can be done after, cf section `EBS Volumes & Encrypt Root Device Volume - Lab`
 * Additional volumes can be encrypted.
 
 ### [What's EBS](https://aws.amazon.com/ebs/)
@@ -91,6 +92,9 @@ A security group acts as a virtual firewall for your instance to control inbound
 * _You can't delete a snapshot of an EBS volume that is used as the root device of a registered AMI._
 * You can change EBS volumes size and type on the fly.
 * To move an EC2 volume from one AZ/Region to another, take a snap or an image of it, then you can copy them to the new AZ/Region.
+
+Encryption:
+* To encrypt an existing EBS root volume: take a snapshot, make an encrypted copy of the snapshot. Now create a new encrypted AMI from the encrypted snapshot. Run the new AMI.
 * Snapshots of encrypted volumes are encrypted automatically
 * Volumes restored from an encrypted snapshot will be encrypted as well.
 * You can share snapshots only if they are not encrypted, these snapshots can be made public.
