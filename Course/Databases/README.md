@@ -1,50 +1,71 @@
 # CHAPTER 6 | Databases
+<!-- TOC -->
 
+- CHAPTER 6 | Databases
+  - Databases 101
+    - [OLTP vs. OLAP](https://www.datawarehouse4u.info/OLTP-vs-OLAP.html)
+    - [AWS Databases](https://aws.amazon.com/products/databases/)
+    - RDS
+    - DynamoDB - No SQL
+    - RedShift - OLAP
+    - Elasticache - In Memeory Caching
+    - RDS Wordpress Lab
+    - [Automated Backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html)
+    - [RDS Multi-AZ](https://aws.amazon.com/rds/details/multi-az/)
+    - [RDS Read Replicas](https://aws.amazon.com/rds/details/read-replicas/)
+    - [DynamoDB](https://aws.amazon.com/dynamodb/)
+    - [Redshift](https://aws.amazon.com/redshift/)
+    - [Elasticache](https://aws.amazon.com/elasticache/)
+    - [RDS Aurora](https://aws.amazon.com/rds/aurora/)
+
+<!-- /TOC -->
 ## Databases 101
 
-_You won't be questioned in the exam about the next sections (up to AWS Databases).
-It's just for your knowledge and very good for better understanding the course._
-
-### [What is a relational DataBase](https://www.codecademy.com/articles/what-is-rdbms-sql)
-
-A relational database is a type of database. It uses a structure that allows us to identify and access data in relation to another piece of data in the database. Often, data in a relational database is organized into tables.
-
-### [What is a non relational DataBase](https://www.mongodb.com/scale/what-is-a-non-relational-database)
-
-A non-relational database is any database that does not follow the relational model provided by traditional relational database management systems. This category of databases also referred to as NoSQL databases, has seen steady adoption growth in recent years with the rise of Big Data applications.
-
-### [What is data warehousing](https://en.wikipedia.org/wiki/Data_warehouse)
-
-Is a system used for reporting and data analysis, and is considered a core component of business intelligence.
-
 ### [OLTP vs. OLAP](https://www.datawarehouse4u.info/OLTP-vs-OLAP.html)
-
-We can divide IT systems into transactional (OLTP) and analytical (OLAP). In general, we can assume that OLTP systems provide source data to data warehouses, whereas OLAP systems help to analyze it.
+* OLTP: online transaction processing 
+* OLAP: online analytical processing
 
 ### [AWS Databases](https://aws.amazon.com/products/databases/)
 
-### Relations ones
+### RDS
+RDS: Relational Database Service
 
-* SQL
+Provides access to:
+
 * MySQL
 * PostgreSQL
 * Oracle
 * Aurora
 * MariaDB
+* SQL Server
 
-### DyanmoDB - No SQL
+RDS specs:
+* runs on VMs, it is not serverless (except Aurora Serverless)
+* it is not possible to SSH into the host
+* maintenance/upgrade of host is Amazon's responsibility
+
+### DynamoDB - No SQL
 
 ### RedShift - OLAP
 
 ### Elasticache - In Memeory Caching
+* Redis / memcached
+
+### RDS Wordpress Lab
+For the web server instance to have access to the database, add a security group inbound rule: 
+* Go to EC2,oOpen the security group of the DB
+* Add an entry for Mysql, with source being the security group of the web server
+* Start a VM, test connectivity: `mysql -h database-1.....rds.amazonaws.com -u login -ppassword -D thedatabasename -e "SHOW TABLES"`
+
 
 ### [Automated Backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html)
 
 There are two different types of backups for AWS:
 
-* Automated: Are enabled by default, data is stored in S3 and are enable automatically.
-    If you delete the DB, the backup will de belated too
-* Database snapshots: Need to be done manually, they are kept even if you remove the DB.
+* Automated: Are enabled by default, data is stored in S3 and are enabled automatically (free S3 storage of the size of the DB)
+  * Are deleted as soon as the DB is deleted
+* Database snapshots: triggered manually
+  * Kept even if the DB is deleted
 
 When you restore a backup or a snapshot, the restored version of the database will be in a new RDS instance, with a new DNS name
 
