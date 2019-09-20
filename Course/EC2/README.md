@@ -143,12 +143,13 @@ My suggestion is to create 2 instances instead and change the `index.html` in so
 
 ### CloudWatch - Lab
 
-* Standard monitoring is 5 min and * Detailed monitoring is 1 min (you will be charged for it)
+* Standard monitoring is 5 min
+* Detailed monitoring is 1 min (you will be charged for it)
 * Dashboard used to visualize what's happening with your AWS environment.
 * Alarms can be set to notify when a specific threshold is hit
 * Events can be used to perform actions when state changes happen in your AWS resources.
 * Logs can be aggregated in a single place to better troubleshoot. Remember that you need to install an agent on the EC2 instance.
-* By default, Matrics on EC2 instances are: CPU related, Disk related, Network related and Status check related.
+* By default, Metrics on EC2 instances are: CPU related, Disk related, Network related and Status check related.
 
 Remember that:
 
@@ -207,6 +208,12 @@ There is also one URL for user data
 
 ```bash
 [ec2-user ~]$ curl http://169.254.169.254/latest/user-data/
+```
+
+User data can be used to execute commands when the AMI has started (at the AMI's initiative), ex:
+```
+#!/bin/bash
+yum update -y
 ```
 
 ### [Lanch configurations](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html) and [Autoscaling Groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html)
