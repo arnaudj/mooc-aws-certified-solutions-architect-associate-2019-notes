@@ -227,14 +227,17 @@ Autoscaling group will automatically spread evenly on the number of instances ac
 
 You can launch or start instances in a placement group, which determines how instances are placed on the underlying hardware. When you create a placement group, you specify one of the following strategies for the group:
 
-* Cluster – clusters instances into a low-latency group in a single Availability Zone.
-* Spread – spreads instances across underlying hardware and can spread in multiple Availability Zones.
-* Partition – spreads instances across logical partitions, ensuring that instances in one partition do not share underlying hardware with instances in other partitions.
+* Cluster – cluster instances into a single Availability Zone.
+  * case: low network low-latency & high throughput
+* Spread – spread instances across underlying hardware. Can span multiple Availability Zones.
+  * case: individual critical EC2 instances
+* Partition – spread instances across logical partitions, ensuring that instances in one partition do not share underlying hardware with instances in other partitions.  Can span multiple Availability Zones.
+  * case: multiple EC2 instances, ex: HDFS/HBase/Cassandra
 
 Some notes about placement groups:
-
 * The name you specify for a placement group must be unique within your AWS account.
-* Only specific types of instances can be launched in a placement group.
+* AWS recommends homogenous instances for clustered placement group
+* Only specific types of instances can be launched in a placement group (Compute/memory/storage... optimized)
 * You can't merge placement groups.
 * You can't move an existing instance into a placement group.
 * If the exam refers to placement groups, without mentioning which type, it's most probably talking about the Cluster ones since those are the old ones.
