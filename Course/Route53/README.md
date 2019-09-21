@@ -3,8 +3,9 @@
 
 - CHAPTER 5 | Route53
   - DNS IN AWS
-    - [ALIAS record](https://support.dnsimple.com/articles/alias-record/)
+    - [Alias record](https://support.dnsimple.com/articles/alias-record/)
     - [Routing policies available in AWS](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html)
+    - Exam tips
   - DNS
     - [What's DNS](https://www.cloudflare.com/learning/dns/what-is-dns/)
     - [IPv4 vs IPv6](https://www.guru99.com/difference-ipv4-vs-ipv6.html)
@@ -19,17 +20,20 @@
 
 ## DNS IN AWS
 
-### [ALIAS record](https://support.dnsimple.com/articles/alias-record/)
+### [Alias record](https://support.dnsimple.com/articles/alias-record/)
+Alias records are CNAME records on steroids:
+* are AWS specific
+* can only redirect queries to selected AWS resources (ELB, S3, cloudfront, etc)
+* can be placed at apex level (ex: example.com)
+* dynamically resolve to 1/N type A records (as if config was static)
 
-An ALIAS record is a virtual record type we created to provide CNAME-like behaviour on apex domains.
-For example, if your domain is example.com and you want it to point to a hostname like myapp.herokuapp.com, you can’t use a CNAME record, but you can use an ALIAS record. The ALIAS record will automatically resolve your domain to one or more A records at resolution time, and resolvers see your domain simply as if it had A records.
-
-In AWS you have to use ALIAS records to point your root domain to other DNS records such as your ELB.
-
+Cf [Choosing Between Alias and Non-Alias Records](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html )
 
 ### [Routing policies available in AWS](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html)
 
-* Simple routing policy: Use for a single resource that performs a given function for your domain. You can have 1 record with multiple addresses.
+* Simple routing policy: 
+  * Random distribution
+  * Use for a single resource that performs a given function for your domain. You can have 1 record with multiple addresses.
 * Weighted routing policy: Use to route traffic to multiple resources in proportions that you specify. You can send 40% of the traffic on one IP and 60% to another IP.
 * Latency routing policy: Use when you have resources in multiple AWS Regions and you want to route traffic to the region that provides the best latency.
 * Failover routing policy: Use when you want to configure active-passive failover.
@@ -37,6 +41,10 @@ You need to create a health check before.
 * Geolocation routing policy: Use when you want to route traffic based on the location of your users.
 * Multivalue answer routing policy: Use when you want Route 53 to respond to DNS queries with up to eight healthy records selected at random.
 * Geoproximity routing policy: Use when you want to route traffic based on the location of your resources and, optionally, shift traffic from resources in one location to resources in another.
+
+### Exam tips
+* ELBs are to be resolved via DNS: they don't have a pre-defined IP address
+* Always choose Alias over CNAME
 
 ## DNS
 
