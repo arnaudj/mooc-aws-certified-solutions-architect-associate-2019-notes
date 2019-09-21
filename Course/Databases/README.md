@@ -5,18 +5,15 @@
   - Databases 101
     - [OLTP vs. OLAP](https://www.datawarehouse4u.info/OLTP-vs-OLAP.html)
     - [AWS Databases](https://aws.amazon.com/products/databases/)
-    - RDS
-    - DynamoDB - No SQL
-    - RedShift - OLAP
-    - Elasticache - In Memeory Caching
-    - RDS Wordpress Lab
-    - [Automated Backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html)
-    - [RDS Multi-AZ](https://aws.amazon.com/rds/details/multi-az/)
-    - [RDS Read Replicas](https://aws.amazon.com/rds/details/read-replicas/)
-    - [DynamoDB](https://aws.amazon.com/dynamodb/)
-    - [Redshift](https://aws.amazon.com/redshift/)
-    - [Elasticache](https://aws.amazon.com/elasticache/)
+  - RDS
+    - [RDS Automated Backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html)
+    - [RDS with Multi-AZ](https://aws.amazon.com/rds/details/multi-az/)
+    - [RDS with Read Replicas](https://aws.amazon.com/rds/details/read-replicas/)
     - [RDS Aurora](https://aws.amazon.com/rds/aurora/)
+    - RDS Wordpress Lab
+  - [DynamoDB](https://aws.amazon.com/dynamodb/)
+  - [Redshift](https://aws.amazon.com/redshift/)
+  - [Elasticache](https://aws.amazon.com/elasticache/)
 
 <!-- /TOC -->
 ## Databases 101
@@ -27,7 +24,7 @@
 
 ### [AWS Databases](https://aws.amazon.com/products/databases/)
 
-### RDS
+## RDS
 RDS: Relational Database Service
 
 Provides access to:
@@ -44,22 +41,7 @@ RDS specs:
 * it is not possible to SSH into the host
 * maintenance/upgrade of host is Amazon's responsibility
 
-### DynamoDB - No SQL
-
-### RedShift - OLAP
-
-### Elasticache - In Memeory Caching
-* Redis / memcached
-
-### RDS Wordpress Lab
-For the web server instance to have access to the database, add a security group inbound rule: 
-* Go to EC2,oOpen the security group of the DB
-* Add an entry for Mysql, with source being the security group of the web server
-* Start a VM, test connectivity: `mysql -h database-1.....rds.amazonaws.com -u login -ppassword -D thedatabasename -e "SHOW TABLES"`
-
-
-### [Automated Backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html)
-
+### [RDS Automated Backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html)
 There are two different types of backups for AWS:
 
 * Automated: Are enabled by default, data is stored in S3 and are enabled automatically (free S3 storage of the size of the DB)
@@ -71,30 +53,65 @@ When you restore a backup or a snapshot, the restored version of the database wi
 
 [Encryption](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html) You can encrypt your Amazon RDS DB instances and snapshots at rest by enabling the encryption option on your Amazon RDS DB instances.
 
-### [RDS Multi-AZ](https://aws.amazon.com/rds/details/multi-az/)
+### [RDS with Multi-AZ](https://aws.amazon.com/rds/details/multi-az/)
 For disaster recovery not for scaling.
 
 Does auto failover to the standby upon DB maintenance, DB failure, AZ failure.
 
-When you provision a Multi-AZ DB Instance, Amazon RDS automatically creates a primary DB Instance and synchronously replicates the data to a standby instance in a different Availability Zone
+* Only database engine on primary instance is active
+* Always span two Availability Zones within a single Region	
+* Synchronous replication – highly durable
 
-
-### [RDS Read Replicas](https://aws.amazon.com/rds/details/read-replicas/)
+### [RDS with Read Replicas](https://aws.amazon.com/rds/details/read-replicas/)
 
 For read-heavy database workloads.
 
 The read replica operates as a DB instance that allows only **read-only** connections
 
-* For scaling not for disaster recovery
-* Replica can be in another region
-* Replica can be multi-AZ for failover
-* You need to have automatic backups on in order to have a read replica.
+* For scaling not for disaster recovery: all read replicas are accessible
+* Replica can be within an Availability Zone, Cross-AZ, or Cross-Region
+* Must have backups enabled
 * You can have up to 5 read replicas of any DB at the time of writing.
 * Each replica has its own DNS name.
 * Replicas be promoted to master (is then an independent DB)
 * You can enable encryption on your replica even if your master is not.
+* Asynchronous replication – highly scalable
 
-### [DynamoDB](https://aws.amazon.com/dynamodb/)
+### [RDS Aurora](https://aws.amazon.com/rds/aurora/)
+
+Aurora is a closed source DB engine, driver-compatible with MySQL and PostgreSQL
+
+Has better performance (tailored for their cloud hardware): 5x MySQL, 3x PostgreSQL
+
+Amazon Aurora is fully managed by Amazon Relational Database Service (RDS), which automates time-consuming administration tasks like hardware provisioning, database setup, patching, and backups.
+
+Amazon Aurora features a distributed, fault-tolerant, self-healing storage system.
+
+It delivers high performance and availability with up to 15 low-latency read replicas, point-in-time recovery, continuous backup to Amazon S3, and replication across three Availability Zones (AZs).
+
+* Scaling:
+  * Auto scales in 10GB Increments up to 64TB
+  * Compute resources can scale up to 32vCPUs and 244GB of Memory.
+
+* Data copies:
+  * 6 copies total: data is in 3 AZ, with 2 copies per AZ
+  * Automated backups enabled by default
+  * Snapshots (manual) can be shared with other AWS accounts
+  * Handles the loss of up two copies of data without affecting database **write** capability.
+  * Handles the loss of up three copies of data without affecting database **read** capability.
+
+* Replicas:
+  * Aurora Replicas: Separate aurora replicas (up to 15 replicas).
+  * MySQL Read replicas: (up to 5 replicas).
+  * Failover: Aurora replicas can be promoted to master
+
+### RDS Wordpress Lab
+For the web server instance to have access to the database, add a security group inbound rule: 
+* Go to EC2, open the security group of the DB
+* Add an entry for Mysql, with source being the security group of the web server
+* Start a VM, test connectivity: `mysql -h database-1.....rds.amazonaws.com -u login -ppassword -D thedatabasename -e "SHOW TABLES"`
+
+## [DynamoDB](https://aws.amazon.com/dynamodb/)
 
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale. It's fully managed.
 
@@ -105,7 +122,8 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 * It's scalable.
 * DynamoDB can be very expensive for writes.
 
-### [Redshift](https://aws.amazon.com/redshift/)
+## [Redshift](https://aws.amazon.com/redshift/)
+For OLAP.
 
 Amazon Redshift is a fast, scalable data warehouse that makes it simple and cost-effective to analyze all your data across your data warehouse.
 
@@ -138,38 +156,12 @@ Columnar data stores can be compressed much more than row-based data.
   * Data copies: 3: 2 on computes nodes (original, replica), 1 on S3 (can be in another region, for DR)
   
 
-### [Elasticache](https://aws.amazon.com/elasticache/)
+## [Elasticache](https://aws.amazon.com/elasticache/)
 
 Elasticache: Managed, Redis or Memcached-compatible in-memory data store. Basically, it's a DB that saves everything in memory to increases I/O performance.
 
 * Types of Elasticache:
-  * Memcached
-  * Redis: In memory key-value store
+  * Memcached (multithreaded whereas redis isn't)
+  * Redis (is multi AZ, has snapshots)
 
-### [RDS Aurora](https://aws.amazon.com/rds/aurora/)
-
-Aurora is a closed source DB engine, driver-compatible with MySQL and PostgreSQL
-
-Has better performance (tailored for their cloud hardware): 5x MySQL, 3x PostgreSQL
-
-Amazon Aurora is fully managed by Amazon Relational Database Service (RDS), which automates time-consuming administration tasks like hardware provisioning, database setup, patching, and backups.
-
-Amazon Aurora features a distributed, fault-tolerant, self-healing storage system.
-
-It delivers high performance and availability with up to 15 low-latency read replicas, point-in-time recovery, continuous backup to Amazon S3, and replication across three Availability Zones (AZs).
-
-* Scaling:
-  * Auto scales in 10GB Increments up to 64TB
-  * Compute resources can scale up to 32vCPUs and 244GB of Memory.
-
-* Data copies:
-  * 6 copies total: data is in 3 AZ, with 2 copies per AZ
-  * Automated backups enabled by default
-  * Snapshots (manual) can be shared with other AWS accounts
-  * Handles the loss of up two copies of data without affecting database **write** capability.
-  * Handles the loss of up three copies of data without affecting database **read** capability.
-
-* Replicas:
-  * Aurora Replicas: Separate aurora replicas (up to 15 replicas).
-  * MySQL Read replicas: (up to 5 replicas).
-  * Failover: Aurora replicas can be promoted to master
+Compare [redis vs memcached](https://aws.amazon.com/elasticache/redis-vs-memcached/)
