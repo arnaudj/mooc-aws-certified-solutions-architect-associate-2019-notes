@@ -72,22 +72,26 @@ When you restore a backup or a snapshot, the restored version of the database wi
 [Encryption](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html) You can encrypt your Amazon RDS DB instances and snapshots at rest by enabling the encryption option on your Amazon RDS DB instances.
 
 ### [RDS Multi-AZ](https://aws.amazon.com/rds/details/multi-az/)
+For disaster recovery not for scaling.
+
+Does auto failover to the standby upon DB maintenance, DB failure, AZ failure.
 
 When you provision a Multi-AZ DB Instance, Amazon RDS automatically creates a primary DB Instance and synchronously replicates the data to a standby instance in a different Availability Zone
 
-* it's for disaster recovery not for scaling.
 
 ### [RDS Read Replicas](https://aws.amazon.com/rds/details/read-replicas/)
 
-This feature makes it easy to elastically scale out beyond the capacity constraints of a single DB Instance for read-heavy database workloads
+For read-heavy database workloads.
+
 The read replica operates as a DB instance that allows only **read-only** connections
 
-* It's used for scaling not for disaster recovery
+* For scaling not for disaster recovery
+* Replica can be in another region
+* Replica can be multi-AZ for failover
 * You need to have automatic backups on in order to have a read replica.
 * You can have up to 5 read replicas of any DB at the time of writing.
 * Each replica has its own DNS name.
-* Replicas can become their own databases.
-* You can have a replica in a second region.
+* Replicas be promoted to master (is then an independent DB)
 * You can enable encryption on your replica even if your master is not.
 
 ### [DynamoDB](https://aws.amazon.com/dynamodb/)
@@ -128,6 +132,12 @@ Columnar data stores can be compressed much more than row-based data.
   * Is available only in 1 AZ
   * Can restore the snapshot to new AZ's in the event of an outage.
 
+* Backups
+  * Enabled by default with 1 day retention period
+  * Maximum retention of 35 days
+  * Data copies: 3: 2 on computes nodes (original, replica), 1 on S3 (can be in another region, for DR)
+  
+
 ### [Elasticache](https://aws.amazon.com/elasticache/)
 
 Elasticache: Managed, Redis or Memcached-compatible in-memory data store. Basically, it's a DB that saves everything in memory to increases I/O performance.
@@ -138,16 +148,28 @@ Elasticache: Managed, Redis or Memcached-compatible in-memory data store. Basica
 
 ### [RDS Aurora](https://aws.amazon.com/rds/aurora/)
 
-Amazon Aurora is a MySQL and PostgreSQL-compatible relational database built for the cloud, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases.
+Aurora is a closed source DB engine, driver-compatible with MySQL and PostgreSQL
+
+Has better performance (tailored for their cloud hardware): 5x MySQL, 3x PostgreSQL
+
+Amazon Aurora is fully managed by Amazon Relational Database Service (RDS), which automates time-consuming administration tasks like hardware provisioning, database setup, patching, and backups.
+
+Amazon Aurora features a distributed, fault-tolerant, self-healing storage system.
+
+It delivers high performance and availability with up to 15 low-latency read replicas, point-in-time recovery, continuous backup to Amazon S3, and replication across three Availability Zones (AZs).
 
 * Scaling:
-  * Scales in 10GB Increments up to 64TB
+  * Auto scales in 10GB Increments up to 64TB
   * Compute resources can scale up to 32vCPUs and 244GB of Memory.
-  * 2 Copies of your data are contained in each availability zone, with a minimum of 3 availability zones.
-  * Aurora handles the loss of up two copies of data without affecting database **write** capability.
-  * Aurora handles the loss of up three copies of data without affecting database **read** capability.
+
+* Data copies:
+  * 6 copies total: data is in 3 AZ, with 2 copies per AZ
+  * Automated backups enabled by default
+  * Snapshots (manual) can be shared with other AWS accounts
+  * Handles the loss of up two copies of data without affecting database **write** capability.
+  * Handles the loss of up three copies of data without affecting database **read** capability.
 
 * Replicas:
   * Aurora Replicas: Separate aurora replicas (up to 15 replicas).
   * MySQL Read replicas: (up to 5 replicas).
-  * In case of loss of the primary aurora DB, failover will automatically occur on the Aurora replica, it will not in the MySQL read replica.
+  * Failover: Aurora replicas can be promoted to master
