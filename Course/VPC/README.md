@@ -1,19 +1,48 @@
 # CHAPTER 7 | VPC
+<!-- TOC -->
 
-## VPC
+- CHAPTER 7 | VPC
+  - [VPC](https://aws.amazon.com/vpc/)
+  - What are the components of Amazon VPC
+  - Internet gateway vs NAT gateway
+  - Default VPC
+  - VPC Peering
+  - How to VPC Peering
+  - Build Your Own Custom VPC
+  - [Network Access Control Lists vs Security Groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
+  - Custom VPC's and ELB's
+  - [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
+  - [VPC Enpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html)
 
-### [Wat's a VPC](https://aws.amazon.com/vpc/)
+<!-- /TOC -->
+## [VPC](https://aws.amazon.com/vpc/)
 
-Think of a VPC as a virtual data centre in the cloud.
+From [User guide](https://docs.aws.amazon.com/en_pv/vpc/latest/userguide/what-is-amazon-vpc.html):
 
-Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways.
+A virtual private cloud (VPC) is a virtual network dedicated to your AWS account. You can launch your AWS resources, such as Amazon EC2 instances, into your VPC. 
 
-### What are the components of Amazon VPC
+Notes:
+* CIDR: Classless Inter-Domain Routing
+* Network Access Control List (ACLs) are stateless (security groups are stateful)
+* A subnet is deemed to be a Public Subnet if it has a Route Table that directs traffic to the Internet Gateway.
+* Transitive peering is unsupported (with A-B-C, then A-C not possible, needs A-B, A-C, etc)
+
+Exam tips:
+* 1 AZ can have several subnets, but 1 subnet belongs to 1 AZ
+* When you create a VPC, you get 
+  * defaults: Route Table + Network Access Control (NACL) + Security group
+  * not created: no subnet, no internet gateway
+* Amazon reserves 5 IPs / subnet
+* 1 VPC = 1 internet gateway max
+* Security groups can't span VPCs
+
+
+## What are the components of Amazon VPC
 
 * A Virtual Private Cloud: A logically isolated virtual network in the AWS cloud. You define a VPC’s IP address space from ranges you select.
-* Subnet: A segment of a VPC’s IP address range where you can place groups of isolated resources.
-* Internet Gateway: The Amazon VPC side of a connection to the public Internet.
-* NAT Gateway: A highly available, managed Network Address Translation (NAT) service for your resources in a private subnet to access the Internet.
+* Subnet: range of IP addresses in your VPC, where you can place groups of isolated resources.
+* Internet Gateway: give resources access to&from the internet.
+* NAT Gateway: give private resources outbound access to the internet. Instances remain hidden behind the NAT.
 * Virtual private gateway: The Amazon VPC side of a VPN connection.
 * Peering Connection: A peering connection enables you to route traffic via private IP addresses between two peered VPCs.
 * VPC Endpoints: Enables private connectivity to services hosted in AWS, from within your VPC without using an Internet Gateway, VPN, Network Address Translation (NAT) devices, or firewall proxies.
@@ -21,22 +50,28 @@ Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolate
 
 ![VPC_Diagram](https://docs.aws.amazon.com/vpc/latest/userguide/images/default-vpc-diagram.png)
 
-* You can have multiple VPC in a region (default up to 5).
-* You can have 1 internet gateway per VPC.
-* 1 Subnet = 1 AZ
-* Security groups are Stateful, instead, Network ACLs are stateless.
+## Internet gateway vs NAT gateway
+Internet Gateways
 
-### Default VPC
+The Internet Gateway is how your VPC connects to the internet. You use an Internet Gateway with a route table to tell the VPC how internet traffic gets to the internet.
+
+An Internet Gateway appears in the VPC as just a name. Amazon manages the gateway and there's nothing you really have a say in (other than to use it or not; remember that you might want a completely segmented subnet that cannot access the internet at all).
+
+A public subnet means a subnet that has internet traffic routed through AWS's Internet Gateway. Any instance within a public subnet can have a public IP assigned to it (e.g. an EC2 instance with "associate public ip address" enabled).
+
+A private subnet means the instances are not publicly accessible from the internet. They do NOT have a public IP address. For example, you cannot access them directly via SSH. Instances on private subnets may still access the internet themselves though (i.e. by using a NAT Gateway).
+
+## Default VPC
 
 * Amazon provides a default VPC to immediately deploy instances.
 * All Subnets in default VPC have a route out to the internet.
 
-### VPC Peering
+## VPC Peering
 
 * You can peer one VPC to another VPC using private IP subnets.
 * You can peer VPC's with others AWS accounts as well as with other VPC's in the same account.
 
-### How to VPC Peering
+## How to VPC Peering
 
 * Overlapping CIDR Blocks is not supported: You can't connect two VPC's that have the same CIDR.
 * Transitive Peering is not supported:
@@ -45,7 +80,7 @@ Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolate
 
     ![transitive-peering](https://docs.aws.amazon.com/vpc/latest/peering/images/transitive-peering-diagram.png)
 
-### Build Your Own Custome VPC
+## Build Your Own Custom VPC
 
 * [VPC and Subnet Sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-subnet-basics) The first four IP addresses and the last IP address in each subnet CIDR block are not available for you to use, and cannot be assigned to an instance.
 
@@ -54,7 +89,7 @@ Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolate
 
     ![nat-gateway](https://docs.aws.amazon.com/vpc/latest/userguide/images/nat-gateway-diagram.png)
 
-### [Network Access Control Lists vs Security Groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
+## [Network Access Control Lists vs Security Groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
 
 ![vpc&NACL](https://docs.aws.amazon.com/vpc/latest/userguide/images/security-diagram.png)
 
@@ -67,14 +102,14 @@ Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolate
 * Remember to open [ephemaral ports](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-ephemeral-ports) on your outbound rules only.
 * If you have to block specific IP addresses, use network ACL not Security Groups
 
-### Custom VPC's and ELB's
+## Custom VPC's and ELB's
 
 * Design tip: Remember that ELB needs at least two public AZ's, so when designing your network, remember to create at least two public subnets in two AZ.
 
-### [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
+## [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
 
 VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow log data can be published to Amazon CloudWatch Logs and Amazon S3. After you've created a flow log, you can retrieve and view its data in the chosen destination.
 
-### [VPC Enpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html)
+## [VPC Enpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html)
 
 A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection.
