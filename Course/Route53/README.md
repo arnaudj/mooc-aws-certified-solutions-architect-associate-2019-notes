@@ -32,15 +32,24 @@ Cf [Choosing Between Alias and Non-Alias Records](https://docs.aws.amazon.com/Ro
 ### [Routing policies available in AWS](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html)
 
 * Simple routing policy: 
-  * Random distribution
-  * Use for a single resource that performs a given function for your domain. You can have 1 record with multiple addresses.
-* Weighted routing policy: Use to route traffic to multiple resources in proportions that you specify. You can send 40% of the traffic on one IP and 60% to another IP.
-* Latency routing policy: Use when you have resources in multiple AWS Regions and you want to route traffic to the region that provides the best latency.
-* Failover routing policy: Use when you want to configure active-passive failover.
-You need to create a health check before.
-* Geolocation routing policy: Use when you want to route traffic based on the location of your users.
-* Multivalue answer routing policy: Use when you want Route 53 to respond to DNS queries with up to eight healthy records selected at random.
-* Geoproximity routing policy: Use when you want to route traffic based on the location of your resources and, optionally, shift traffic from resources in one location to resources in another.
+  * Given 1 record (with 1..N values (IPs)): returns the N IPs in random order
+* Multivalue answer routing policy:
+  * Same as simple routing policy, with per-record healthchecks
+  * Given 1..8 records with 1 value (IP): returns the 1..8 IPs passing their own healthcheck in random order
+* Weighted routing policy:
+  * Set weight per item (percentage-based routing)
+  * Health check is possible on individual record set. If failed, record set will be removed from Route53 until back on again.
+* Latency routing policy:
+  * Resolves to the resource that has the best latency from the user's location.
+* Failover routing policy:
+  * Resolve the secondary in case primary falls
+  * Requires to create a health check before
+* Geolocation routing policy:
+  * Resolves to a resource based on the user's location (ex: all european clients to 1 instance, for business/regulation purpose)
+* Geoproximity routing policy:
+  * Resolves based on the geo location of the users and your resources.
+  * Has concept of bias to shrink/expand the source geo region
+  * Based on Route53 traffic flow.
 
 ### Exam tips
 * ELBs are to be resolved via DNS: they don't have a pre-defined IP address
