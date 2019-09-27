@@ -3,12 +3,16 @@
 
 - CHAPTER 7 | VPC
   - [VPC](https://aws.amazon.com/vpc/)
-  - What are the components of Amazon VPC
+  - Terminology
+    - Amazon VPC components
+    - Network
   - Internet gateway vs NAT gateway
   - Default VPC
   - VPC Peering
   - How to VPC Peering
   - Build Your Own Custom VPC
+    - NAT instances exam tips
+    - NAT gateways exam tips
   - [Network Access Control Lists vs Security Groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
   - Custom VPC's and ELB's
   - [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
@@ -37,12 +41,14 @@ Exam tips:
 * Security groups can't span VPCs
 
 
-## What are the components of Amazon VPC
+## Terminology
+### Amazon VPC components
 
 * A Virtual Private Cloud: A logically isolated virtual network in the AWS cloud. You define a VPC’s IP address space from ranges you select.
 * Subnet: range of IP addresses in your VPC, where you can place groups of isolated resources.
 * Internet Gateway: give resources access to&from the internet.
-* NAT Gateway: give private resources outbound access to the internet. Instances remain hidden behind the NAT.
+* NAT Gateway: an aws managed NAT service (more availability&bandwidth, less admin). Instances remain hidden behind the NAT.
+* NAT instance: regular instance that you configure to provide NATing (e.g, from aws community AMIs)
 * Virtual private gateway: The Amazon VPC side of a VPN connection.
 * Peering Connection: A peering connection enables you to route traffic via private IP addresses between two peered VPCs.
 * VPC Endpoints: Enables private connectivity to services hosted in AWS, from within your VPC without using an Internet Gateway, VPN, Network Address Translation (NAT) devices, or firewall proxies.
@@ -50,16 +56,17 @@ Exam tips:
 
 ![VPC_Diagram](https://docs.aws.amazon.com/vpc/latest/userguide/images/default-vpc-diagram.png)
 
+### Network
+* public subnet: a subnet that has internet traffic routed through AWS's Internet Gateway. Any instance within a public subnet can have a public IP assigned to it (e.g. an EC2 instance with "associate public ip address" enabled).
+* private instances: instances on a private subnet
+* private subnet means the instances are not publicly accessible from the internet. They do NOT have a public IP address. For example, you cannot access them directly via SSH. Instances on private subnets may still access the internet themselves though (i.e. by using a NAT Gateway).
+
 ## Internet gateway vs NAT gateway
 Internet Gateways
 
 The Internet Gateway is how your VPC connects to the internet. You use an Internet Gateway with a route table to tell the VPC how internet traffic gets to the internet.
 
 An Internet Gateway appears in the VPC as just a name. Amazon manages the gateway and there's nothing you really have a say in (other than to use it or not; remember that you might want a completely segmented subnet that cannot access the internet at all).
-
-A public subnet means a subnet that has internet traffic routed through AWS's Internet Gateway. Any instance within a public subnet can have a public IP assigned to it (e.g. an EC2 instance with "associate public ip address" enabled).
-
-A private subnet means the instances are not publicly accessible from the internet. They do NOT have a public IP address. For example, you cannot access them directly via SSH. Instances on private subnets may still access the internet themselves though (i.e. by using a NAT Gateway).
 
 ## Default VPC
 
@@ -88,6 +95,20 @@ A private subnet means the instances are not publicly accessible from the intern
 * Use [Nat Gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-basics) instead of Nat Instances
 
     ![nat-gateway](https://docs.aws.amazon.com/vpc/latest/userguide/images/nat-gateway-diagram.png)
+
+### NAT instances exam tips
+* Disable [Source/Destination Checks](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_NAT_Instance.html#EIP_Disable_SrcDestCheck).
+* NAT instances must be on a public subnet
+* NAT instances are behind a security group
+* Private instances must have a route to reach the NAT instance
+* High availability can be achieved via autoscaling groups, multiple subnets in different AZs, and a failover script
+
+### NAT gateways exam tips
+* Redundant within an AZ
+* 5Gbps to 45Gbps
+* Managed (patching)
+* Not linked to a security group; no need to disable Source/Destination Checks
+* Auto public IP assignment
 
 ## [Network Access Control Lists vs Security Groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
 
