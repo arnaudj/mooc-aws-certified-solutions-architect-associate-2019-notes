@@ -114,11 +114,14 @@ An Internet Gateway appears in the VPC as just a name. Amazon manages the gatewa
 
 ![vpc&NACL](https://docs.aws.amazon.com/vpc/latest/userguide/images/security-diagram.png)
 
-* NACL cannot be deployed in multiple VPCs.
-* NACL cannot be attached to multiple subnets, only one at the time.
-* Each subnet must be associated with a network ACL, if you don't, default NACL will be used.
-* By default when you create one NACL, everything is denied.
-* Rules are applied in numerical order (starting from the lowest), so when you should create the first rule having number 100 and add others on incremental of 100
+* Default Network ACL (NACL): is allow all inbound and outbound
+* New custom NACL defaults is deny all inbound and outbound
+* A NACL as separate rules for inbound and outbound and not stateful (response subject to outbound rules & vice versa)
+* 1 NACL belongs to a single VPC
+* You can block IPs via NACLs
+* 1 NACL can be associated with multiple subnets ([NACL Basics](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html?shortFooter=true))
+* A subnet can only have 1 NACL at a time (by default, the default NACL)
+* Rules are applied in ascending numerical order, so when you should create the first rule having number 100 and add others on incremental of 100
 * NACL are **stateless** (opposite of Security Groups)
 * Remember to open [ephemaral ports](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-ephemeral-ports) on your outbound rules only.
 * If you have to block specific IP addresses, use network ACL not Security Groups
