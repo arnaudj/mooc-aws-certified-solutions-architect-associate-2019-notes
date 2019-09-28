@@ -6,7 +6,6 @@
   - Terminology
     - Amazon VPC components
     - Network
-  - Internet gateway vs NAT gateway
   - Default VPC
   - VPC Peering
   - How to VPC Peering
@@ -61,12 +60,6 @@ Exam tips:
 * private instances: instances on a private subnet
 * private subnet means the instances are not publicly accessible from the internet. They do NOT have a public IP address. For example, you cannot access them directly via SSH. Instances on private subnets may still access the internet themselves though (i.e. by using a NAT Gateway).
 
-## Internet gateway vs NAT gateway
-Internet Gateways
-
-The Internet Gateway is how your VPC connects to the internet. You use an Internet Gateway with a route table to tell the VPC how internet traffic gets to the internet.
-
-An Internet Gateway appears in the VPC as just a name. Amazon manages the gateway and there's nothing you really have a say in (other than to use it or not; remember that you might want a completely segmented subnet that cannot access the internet at all).
 
 ## Default VPC
 
