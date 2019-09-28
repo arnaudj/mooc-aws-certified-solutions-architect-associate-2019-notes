@@ -125,8 +125,15 @@ Exam tips:
 
 ## [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
 
-VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow log data can be published to Amazon CloudWatch Logs and Amazon S3. After you've created a flow log, you can retrieve and view its data in the chosen destination.
+* Capture information about the IP traffic going to and from network interfaces in your VPC
+* Ability to choose to log accept/deny or both
+* Can log to a Cloudwatch or S3
+* Some traffic won't be logged (traffic to default VPC router, domain resolution via default DNS, 169.254.169.254 instance metadata, etc)
 
 ## [VPC Enpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html)
 
 A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection.
+
+Example use case: private instance that doesn't need internet access, but needs access to S3.
+
+Tip: when using the CLI tools, you need to specify the region you use: `aws s3 ls --region us-east-2`
