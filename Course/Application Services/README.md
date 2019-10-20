@@ -4,12 +4,14 @@
 
 Amazon Simple Queue Service (SQS) is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications.
 
-* It's basically a message queue service, like Kafka for example. You add items in the queue, and then someone will ask for these objects from the queue.
-* Retention can go up to 14 days.
-* It's a pull base system.
+* Message queue service
+* Retention 1min to 14 days (default: 4 days) 
+* SQS is pull based, not push based. Supports short and long polling
+* Messages size is up to 256KB
+* Visibility timeout (max 12 hours): delay after which a message read from SQS but 'not yet confirmed as fully processed by this consumer' will become visible again by another consumer.
 * Type of queues:
-  * Default: All queue are standard by default. They don't have an order. Ordering is best-effort, so they don't guarantee ordering on default queues.
-  * FIFO: (first in first out) These queues guarantee ordering.
+  * Default: best effort ordering, highly parallel, at least once but not exactly once
+  * FIFO: (first in first out): ordering guaranteed, exactly once delivery
 * You can have duplicates if you don't manage very well your visibility timeouts.
 
 _Read the [SQS faqs](https://aws.amazon.com/sqs/faqs/) before taking the exam._
