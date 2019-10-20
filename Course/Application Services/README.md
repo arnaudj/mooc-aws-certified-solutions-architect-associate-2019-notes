@@ -20,11 +20,17 @@ _Read the [SQS faqs](https://aws.amazon.com/sqs/faqs/) before taking the exam._
 
 Amazon SWF (Simple Workflow Service) is an Amazon Web Services tool that helps developers coordinate, track and audit multi-step, multi-machine application jobs.
 
-* It ensures that a task is assigned only once and is never duplicated.
-* Retention can go up to 1 year
-* SWF Workers: Workers are programs that interact with Amazon SWF to get tasks, process received task, and return the result.
-* SWF Decider: The decider is a program that controls the coordination of tasks.
-* SWF Domains: Domains isolate a set of types, executions, and task lists from others within the same account.
+* To develop workflows (ex: delivering a book from AMZ warehouse)
+* SWF vs SQS:
+  * Retention: 1 year for workflows (SWF) vs 14 days for messages (SQS)
+  * Task oriented API vs message oriented API
+  * Only once assignment and no duplication
+  * SWF keeps central track of all tasks/events vs SQS with multiple queues require app level tracking logic
+
+SWF actors:
+* SWF workflow starters: initiate a workflow (ex: new e-commerce order)
+* SWF Decider: control the flow of tasks in a workflow execution
+* SWF Workers: carry out the tasks
 
 ## [SNS](https://aws.amazon.com/sns/)
 
