@@ -9,6 +9,21 @@ Forked original notes of [Alessio Casco](https://github.com/AlessioCasco/AWS-CSA
 
 Content enriched with my notes from course [Udemy AWS Certified Solutions Architect - Associate 2019](https://www.udemy.com/aws-certified-solutions-architect-associate/)
 
+## Content
+* [10K Foot Overview](Course/10K_Overview/README.md)
+* [IAM](Course/IAM/README.md)
+* [S3](Course/S3/README.md)
+* [EC2](Course/EC2/README.md)
+* [Route53](Course/Route53/README.md)
+* [Databases](Course/Databases/README.md)
+* [VPC](Course/VPC/README.md)
+* [Application Services](Course/Application%20Services/README.md)
+* [High availability](Course/HA/README.md)
+* [The Well Architected Framework](Course/The%20Well%20Architected%20Framework/README.md)
+* [Exam Tips](Course/Exam%20Tips/README.md)
+* [Exam Readiness](Exam%20Readiness/README.md)
 
 ## Other resources
 * Linux Academy Orion papers [2019](https://www.lucidchart.com/documents/view/e9ee8809-f353-450a-aba7-4c366b01d5f8/0_0), [2017](https://www.lucidchart.com/documents/view/bd4fb4e7-336e-4c8b-972d-048616da9f96/fB.lPxz788ce)
+* FAQs:
+  * S3: https://aws.amazon.com/s3/faqs/
