@@ -67,3 +67,15 @@ Amazon Kinesis makes it easy to collect, process, and analyze real-time, streami
 * Kinesis Firehose: It doesn't have shards and their built-in persistence. So data traverses the Firehose. Data has to be processed immediately with lambda or stored in S3 for example.
   * It can stream data to Amazon S3, Amazon Redshift, Amazon Elasticsearch Service, and Splunk.
 * Kinesis Analytics: It allows you to analyze the data that exists in Kinesis Firehose of streams.
+
+## [Cognito](https://aws.amazon.com/cognito/)
+Provides identity federation: allows users to authenticate via a Web Identity Provider (Google, Facebook, Amazon)
+
+
+Exam tips:
+* First, the user identifies with the WebId provider via the **user pool**
+* Then the AWS credentials (IAM role) are retrieved via the **identity pool**
+
+User pool is used based, handles: registration, authentication, account recovery.
+
+Identity pool authorizes access to the AWS resources.
