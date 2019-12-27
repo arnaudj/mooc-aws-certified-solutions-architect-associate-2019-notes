@@ -257,7 +257,7 @@ You can use lambda in two ways:
 * Event-driven based: Lambda runs your code based on events, such, new file on S3 or a new alarm on cloudwatch
 * Compute-service based: Lambda runs your code based on HTTP requests using an API Gateway or API calls made using AWS SDKs.
 
-AWS lambda, supports: C#, Node.js, Python, and Java
+AWS lambda, supports: C#, Node.js, Python, Java, Go, Ruby and Powershell 
 
 Lambda is charged as follow:
 
